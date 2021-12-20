@@ -18,7 +18,7 @@ class UserRepository
 
     public function checkUserName(string $username): bool
     {
-        return $result = $this->redisClient->hexists("password",$username);
+        return $this->redisClient->hexists("password",$username);
     }
 
     public function checkUserId(string $id): bool
@@ -66,7 +66,6 @@ class UserRepository
     public function getAllUsers(): array
     {
 
-        $result = $this->redisClient->hgetAll("user");
-        return $result;
+        return $this->redisClient->hgetAll("user");
     }
 }

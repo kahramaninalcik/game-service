@@ -3,15 +3,12 @@
 require_once __DIR__ . '/TinyRedisClient.php';
 
 
-
 class RedisClient
 {
 
     public static function connect(): ?TinyRedisClient
-
     {
         try {
-
             return new TinyRedisClient(REDIS_HOST . ":" . REDIS_PORT);
         } catch (Exception $e) {
             $error = array();

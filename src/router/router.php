@@ -8,18 +8,13 @@ require_once __DIR__ . '/../util/Response.php';
 
 class Router
 {
-
     private $supportedHttpMethods = array(GET, POST);
-
     private $supportedPaths = array(
         LOGIN, REGISTER, END_GAME, LEADER_BOARD
     );
-
     private $activeMethod;
-
     private $userController;
     private $gameController;
-
 
     function __construct()
     {
@@ -32,10 +27,11 @@ class Router
 
         $this->userController = new UserController();
         $this->gameController = new GameController();
-
     }
 
-
+    /*
+     * Check Http Method
+     */
     private function checkHttpType(): bool
     {
         if (in_array($_SERVER['REQUEST_METHOD'], $this->supportedHttpMethods)) {
@@ -45,6 +41,9 @@ class Router
             return false;
     }
 
+    /*
+     * Check Slug
+     */
     private function checkPath(): bool
     {
         if (in_array($_SERVER['REQUEST_URI'], $this->supportedPaths))
@@ -55,26 +54,20 @@ class Router
 
     public function processStart(): void
     {
-
         if ($this->activeMethod == GET) {
             $this->getProcess();
         } else if ($this->activeMethod == POST) {
             $this->postProcess($_SERVER['REQUEST_URI']);
         }
-
-
     }
 
     private function getProcess(): void
     {
-
         $this->gameController->leaderBoard();
-
     }
 
     private function postProcess(string $slug): void
     {
-
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
@@ -85,9 +78,5 @@ class Router
         } else if ($slug == END_GAME) {
             $this->gameController->endGame($data);
         }
-
-
     }
-
-
 }

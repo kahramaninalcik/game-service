@@ -73,16 +73,10 @@ class Response
         $error['message']=$message;
         http_response_code((int)$errorCode);
         echo json_encode(new Response("ERROR", (string)time(),(object)$error));
-
     }
 
     static function returnSuccess(object $result):void{
         http_response_code(200);
         echo json_encode(new Response("SUCCEES", (string)time(),$result));
-
     }
-
-
-
-
 }

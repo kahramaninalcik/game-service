@@ -4,25 +4,22 @@ require __DIR__ . '/../repository/GameRepository.php';
 
 class GameService
 {
-
     private $gameRepository;
     private $userRepository;
 
     function __construct()
     {
-
         $this->gameRepository = new GameRepository();
         $this->userRepository = new UserRepository();
-
     }
 
+    /*
+     * Action of endGame
+     */
     public function endGame(object $data): ?object
     {
-
         if (empty($data->players))
             return null;
-
-
         $arrayDataUsers = array();
         $arrayDataUsersAll = array();
         foreach ($data->players as $item) {
@@ -32,34 +29,26 @@ class GameService
                 $arrayDataUsers["score"] = $item->score;
                 $arrayDataUsers["username"] = $userName;
                 $arrayDataUsers["id"] = $item->id;
-
                 $arrayDataUsersAll[] = $arrayDataUsers;
-
             } else
                 continue;
         }
-
-
         return (object)$arrayDataUsersAll;
-
     }
 
-
+    /*
+     * Action of LeaderBoard
+     */
     public function leaderBoard(): ?object
     {
-
         $arrayAll = array();
         foreach ($this->gameRepository->leaderBoard() as $key => $item) {
             $array = array();
             $array['rank'] = (int)$key + 1;
             $array['id'] = $item;
             $array['username'] = $this->userRepository->getUserName($item);
-
             $arrayAll[] = $array;
-
         }
-        return (object) $arrayAll;
-
-
+        return (object)$arrayAll;
     }
 }
